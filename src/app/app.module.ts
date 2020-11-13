@@ -18,10 +18,12 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
 @NgModule({
   imports: [
+    SweetAlert2Module.forRoot(),
     BrowserAnimationsModule,
     HttpClientModule,
     ComponentsModule,
