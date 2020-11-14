@@ -5,6 +5,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Errors } from './errors';
 import Swal from 'sweetalert2';
+import * as firebase from '@firebase/app';
+import '@firebase/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +53,44 @@ export class AuthService {
       .catch(e => console.log(e));
     })
     .catch(e => this.showError(e));
+  }
+
+  GoogleAuth() {
+    return this.AuthLogin(new firebase.firebase.auth.GoogleAuthProvider());
+  }
+  // Auth logic to run auth providers
+  AuthLogin(provider) {
+    const user = {} as IUser;
+
+    return this.auth.signInWithPopup(provider)
+    .then((res) => {
+      console.log(res);
+      this.db.collection('Users').doc(res.user.uid).ref.get().then(doc => {
+        if (!doc.exists) {
+          user.CreatedOn = Date.now();
+          user.Id = res.user.uid;
+          const displayName = res.user.displayName.split(' ');
+          user.FirstName = displayName[0];
+          user.LastName = displayName[1];
+          user.Email = res.user.email;
+          user.EmailVerified = res.user.emailVerified;
+          user.FCMToken = res.user.refreshToken;
+          user.ProfilePhoto = res.user.photoURL;
+          user.NumNotes = 0;
+          user.Disabled = false;
+          this.db
+          .collection('Users')
+          .doc(res.user.uid)
+          .set(user).then(() => {
+            this.router.navigate(['/dashboard']);
+          });
+        } else {
+          this.router.navigate(['/dashboard']);
+        }
+      });
+    }).catch((error) => {
+        console.log(error);
+    });
   }
 
   signOut() {

@@ -40,9 +40,6 @@ export class UserProfileComponent implements OnDestroy {
 
     }
 
-  ngOnInit() {
-  }
-
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
@@ -86,17 +83,18 @@ export class UserProfileComponent implements OnDestroy {
 
   deleteAccount(id: string) {
     Swal.fire({
-      title: 'Are you sure?',
-      text: 'Are you sure to delete the menu? It cannot be undone.',
-      icon: 'warning',
-      dangerMode: true,
-      buttons: {
-        cancel: 'Cancel',
-        ok: 'OK'
-      }
-    } as any).then(result => {
+      title: 'Enter your password',
+      input: 'password',
+      inputLabel: 'Password',
+      inputPlaceholder: 'Enter your password',
+      // inputAttributes: {
+      //   maxlength: 10,
+      //   autocapitalize: 'off',
+      //   autocorrect: 'off'
+      // },
+    }as any).then((result) => {
       if (result.value) {
-        this.userService.delete(id);
+        this.userService.delete(id, result.value);
       }
     });
   }

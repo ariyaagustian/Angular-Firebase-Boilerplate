@@ -11,7 +11,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   signInForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private auth: AuthService) {
+  constructor(private fb: FormBuilder, public auth: AuthService) {
     this.signInForm = this.fb.group({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required])
