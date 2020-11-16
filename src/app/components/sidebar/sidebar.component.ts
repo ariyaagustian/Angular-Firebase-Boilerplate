@@ -1,7 +1,9 @@
+import { Observable } from 'rxjs';
 import { AuthService } from './../../services/auth/auth.service';
 import { UserService } from './../../services/user/user.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { IUser } from 'src/app/models/user';
 
 declare interface RouteInfo {
     path: string;
@@ -10,7 +12,7 @@ declare interface RouteInfo {
     class: string;
 }
 export const ROUTES: RouteInfo[] = [
-    { path: '/dashboard', title: 'Dashboard',  icon: 'ni-tv-2 text-primary', class: '' },
+    { path: '/admin/dashboard', title: 'Dashboard',  icon: 'ni-tv-2 text-primary', class: '' },
     // { path: '/login', title: 'Login',  icon: 'ni-key-25 text-info', class: '' },
     // { path: '/register', title: 'Register',  icon: 'ni-circle-08 text-pink', class: '' }
 ];
@@ -24,8 +26,11 @@ export class SidebarComponent implements OnInit {
 
   public menuItems: any[];
   public isCollapsed = true;
+  user: Observable<IUser>;
 
-  constructor(private router: Router, private userService: UserService, private auth: AuthService) { }
+  constructor(private router: Router, private userService: UserService, private auth: AuthService) {
+    this.user = this.userService.user;
+   }
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);

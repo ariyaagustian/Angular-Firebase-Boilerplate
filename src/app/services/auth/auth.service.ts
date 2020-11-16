@@ -35,7 +35,7 @@ export class AuthService {
   signIn(email: string, password: string) {
     return this.auth.signInWithEmailAndPassword(email, password)
     .then(() => {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/admin/dashboard']);
     }).catch(e => this.showError(e));
   }
 
@@ -48,7 +48,7 @@ export class AuthService {
       .collection('Users')
       .doc(userCredential.user.uid)
       .set(user).then(() => {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/admin/dashboard']);
       })
       .catch(e => console.log(e));
     })
@@ -82,10 +82,10 @@ export class AuthService {
           .collection('Users')
           .doc(res.user.uid)
           .set(user).then(() => {
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/admin/dashboard']);
           });
         } else {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/admin/dashboard']);
         }
       });
     }).catch((error) => {
